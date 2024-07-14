@@ -5,9 +5,8 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.*;
 import java.sql.*;
-import java.util.*;
 
-class RetailerWin implements ActionListener{
+class CompanyWin implements ActionListener{
 
     //FRAME PANEL LAYOUT_MANAGER
     JFrame f1;
@@ -23,12 +22,12 @@ class RetailerWin implements ActionListener{
 
 
     //LABLES DECLARATIONS
-    JLabel  lblHeader,lblRCode,lblRName,lblContNo,lblLocality,lblCity,
+    JLabel  lblHeader,lblComCode,lblComName,lblContNo,lblLocality,lblCity,
             lblStateTeri,lblPhNo,lblMail,lblGSTNO,lblGSTDate;
 
 
     //TEXTFIELDS DECLARATIONS
-    JTextField txtRName,txtRCode,txtContNo,txtLocality,txtCity,
+    JTextField txtComName,txtComCode,txtContNo,txtLocality,txtCity,
             txtPhNo,txtMail,txtGSTNO,txtGSTDate;
 
     //IMAGE_ICONS DECLARATIONS
@@ -89,16 +88,16 @@ class RetailerWin implements ActionListener{
     Connection conn;
     Statement stmSave,stmSelect, stmSearching, stmDelete,stmUpdate;//,stmFirst,stmLast;
     ResultSet rsUser,rsComCode;
-    String strRCode,strRCode1,strRName,strContNo,strLocality,strCity,strStateTerr,
+    String strComCode,strComCode1,strComName,strContNo,strLocality,strCity,strStateTerr,
             strPhno,strMail,strGST,strGSTDate,strSearching,str2;
 
 
 //156, 177, 214
 
     //CONSTRUCTOR BEGIN
-    public RetailerWin(){
+    public CompanyWin(){
         //frame Panel LayoutManager Box
-        f1=new JFrame("Logistic Solution  ");
+        f1=new JFrame("Company Details ");
         f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         p1=new JPanel();
         p2=new JPanel();
@@ -113,7 +112,7 @@ class RetailerWin implements ActionListener{
 
         //Font and Colors and Border
         fnt1=new Font("Castellar",Font.BOLD,30);//Times New Roman//Castellar
-        fnt2=new Font("Bahnschrift SemiLight",Font.BOLD,15);//copperplategothic// Bahnschrift SemiLight//Bookman Old Style
+        fnt2=new Font("Bahnschrift SemiLight",Font.BOLD,18);//copperplategothic// Bahnschrift SemiLight//Bookman Old Style
         clrAll=new Color (157, 174, 204);//panel
         clrfont=new Color(87, 111, 153);// Blue//122, 5, 20 //11, 89, 46
         clrWhite=new Color(255,255,255);//white  //255,255,255
@@ -127,13 +126,13 @@ class RetailerWin implements ActionListener{
 
 
         //Lables font and colors
-        lblHeader= new JLabel("RETAILER INFORMATION");
+        lblHeader= new JLabel("COMPANY INFORMATION");
         lblHeader.setFont(fnt1);
         lblHeader.setForeground(clrfont);
-        lblRCode= new JLabel("Retailer Code:");
-        lblRCode.setFont(fnt2);
-        lblRName=new JLabel("Retailer Name:");
-        lblRName.setFont(fnt2);
+        lblComCode= new JLabel("Company Code:");
+        lblComCode.setFont(fnt2);
+        lblComName=new JLabel("Company Name:");
+        lblComName.setFont(fnt2);
         lblContNo=new JLabel("Contact Person:");
         lblContNo.setFont(fnt2);
         lblLocality=new JLabel("Locality:");
@@ -152,12 +151,12 @@ class RetailerWin implements ActionListener{
         lblGSTDate.setFont(fnt2);
 
         //TextFilds and colors
-        txtRCode= new JTextField(20);
-        txtRCode.setBackground(clrText);
-        txtRCode.setFont(fnt2);
-        txtRName= new JTextField(50);
-        txtRName.setBackground(clrText);
-        txtRName.setFont(fnt2);
+        txtComCode= new JTextField(20);
+        txtComCode.setBackground(clrText);
+        txtComCode.setFont(fnt2);
+        txtComName= new JTextField(50);
+        txtComName.setBackground(clrText);
+        txtComName.setFont(fnt2);
         txtContNo= new JTextField(50);
         txtContNo.setBackground(clrText);
         txtContNo.setFont(fnt2);
@@ -255,10 +254,10 @@ class RetailerWin implements ActionListener{
         p1.add(lblHeader);
 
         p2.setLayout(gl62);
-        p2.add(lblRCode);
-        p2.add(txtRCode);
-        p2.add(lblRName);
-        p2.add(txtRName);
+        p2.add(lblComCode);
+        p2.add(txtComCode);
+        p2.add(lblComName);
+        p2.add(txtComName);
         p2.add(lblContNo);
         p2.add(txtContNo);
         p2.add(lblLocality);
@@ -366,8 +365,8 @@ class RetailerWin implements ActionListener{
     public void actionPerformed(ActionEvent ae){
         //CLEAR-->
         if (ae.getSource()==btnClear){
-            txtRCode.setText("");
-            txtRName.setText("");
+            txtComCode.setText("");
+            txtComName.setText("");
             txtContNo.setText("");
             txtLocality.setText("");
             txtCity.setText("");
@@ -381,8 +380,8 @@ class RetailerWin implements ActionListener{
         }
         //SAVE-->
         else if(ae.getSource()==btnSave){
-            strRCode=txtRCode.getText();
-            strRName=txtRName.getText();
+            strComCode=txtComCode.getText();
+            strComName=txtComName.getText();
             strContNo=txtContNo.getText();
             strLocality=txtLocality.getText();
             strCity=txtCity.getText();
@@ -398,7 +397,7 @@ class RetailerWin implements ActionListener{
                 return;
             }
             //Important detailes-->
-            if(strRCode.isEmpty()||strRName.isEmpty()||strCity.isEmpty()||strStateTerr.isEmpty()||strPhno.isEmpty()||strGST.isEmpty()||strMail.isEmpty()){
+            if(strComCode.isEmpty()||strComName.isEmpty()||strCity.isEmpty()||strStateTerr.isEmpty()||strPhno.isEmpty()||strGST.isEmpty()||strMail.isEmpty()){
                 dlg.showMessageDialog(f1,"You are missing some Star Mark detailes.Please check it ","Message",2);
                 return;
             }
@@ -406,7 +405,7 @@ class RetailerWin implements ActionListener{
 
             try{
                 stmSave=conn.createStatement();
-                stmSave.executeUpdate("insert into  LSG_TBLCOMPANY values('"+strRCode+"','"+strRName+"','"+strContNo+"','"+strLocality+"','"+strCity+"','"+strStateTerr+"','"+strPhno+"','"+strMail+"','"+strGST+"','"+strGSTDate+"')");
+                stmSave.executeUpdate("insert into  LSG_TBLCOMPANY values('"+strComCode+"','"+strComName+"','"+strContNo+"','"+strLocality+"','"+strCity+"','"+strStateTerr+"','"+strPhno+"','"+strMail+"','"+strGST+"','"+strGSTDate+"')");
                 //System.out.println("save");
                 dlg.showMessageDialog(f1,"One Record Savaed","Message",1);
             }
@@ -425,9 +424,9 @@ class RetailerWin implements ActionListener{
                 }
                 else{
                     rsUser.next();
-                    strRCode=rsUser.getString("CCODE");
-                    strRCode1=rsUser.getString("CCODE");
-                    strRName=rsUser.getString("CNAME");
+                    strComCode=rsUser.getString("CCODE");
+                    strComCode1=rsUser.getString("CCODE");
+                    strComName=rsUser.getString("CNAME");
                     strContNo=rsUser.getString("CONTPER");
                     strLocality=rsUser.getString("LOCALITY");
                     strCity=rsUser.getString("CITY");
@@ -437,8 +436,8 @@ class RetailerWin implements ActionListener{
                     strGST=rsUser.getString("GSTNO");
                     strGSTDate=rsUser.getString("GSTDATE");
 
-                    txtRCode.setText(strRCode);
-                    txtRName.setText(strRName);
+                    txtComCode.setText(strComCode);
+                    txtComName.setText(strComName);
                     txtContNo.setText(strContNo);
                     txtLocality.setText(strLocality);
                     txtCity.setText(strCity);
@@ -465,9 +464,9 @@ class RetailerWin implements ActionListener{
                 }
                 else{
                     rsUser.previous();
-                    strRCode=rsUser.getString("CCODE");
-                    strRCode1=rsUser.getString("CCODE");
-                    strRName=rsUser.getString("CNAME");
+                    strComCode=rsUser.getString("CCODE");
+                    strComCode1=rsUser.getString("CCODE");
+                    strComName=rsUser.getString("CNAME");
                     strContNo=rsUser.getString("CONTPER");
                     strLocality=rsUser.getString("LOCALITY");
                     strCity=rsUser.getString("CITY");
@@ -477,8 +476,8 @@ class RetailerWin implements ActionListener{
                     strGST=rsUser.getString("GSTNO");
                     strGSTDate=rsUser.getString("GSTDATE");
 
-                    txtRCode.setText(strRCode);
-                    txtRName.setText(strRName);
+                    txtComCode.setText(strComCode);
+                    txtComName.setText(strComName);
                     txtContNo.setText(strContNo);
                     txtLocality.setText(strLocality);
                     txtCity.setText(strCity);
@@ -502,7 +501,7 @@ class RetailerWin implements ActionListener{
                 option=dlgCd.showConfirmDialog(f1,"Sure to Delete","Alert",2);
                 if(option==0){
                     stmDelete=conn.createStatement();
-                    stmDelete.executeUpdate("delete from LSG_TBLCOMPANY where CCODE='"+strRCode1+"'");
+                    stmDelete.executeUpdate("delete from LSG_TBLCOMPANY where CCODE='"+strComCode1+"'");
                     dlg.showMessageDialog(f1,"Record Deleted  ","Message",1);
                 }
             }
@@ -513,8 +512,8 @@ class RetailerWin implements ActionListener{
         }
         //UPDATE-->
         else if(ae.getSource()==btnUpdate){
-            strRCode=txtRCode.getText();
-            strRName= txtRName.getText();
+            strComCode=txtComCode.getText();
+            strComName= txtComName.getText();
             strContNo=txtContNo.getText();
             strLocality=txtLocality.getText();
             strCity=txtCity.getText();
@@ -527,7 +526,7 @@ class RetailerWin implements ActionListener{
                 stmUpdate = conn.createStatement();
                 option=dlgCd.showConfirmDialog(f1,"Sure to Update","Alert",2);
                 if(option==0){
-                    stmUpdate.executeUpdate("update LSG_TBLCOMPANY set CCODE='"+strRCode+"', CNAME ='"+strRName+"', CONTPER='"+strContNo+"',LOCALITY='"+strLocality+"', CITY='"+strCity+"', STATE='"+strStateTerr+"',PHNO='"+strPhno+"',MAIL='"+strMail+"',GSTNO='"+strGST+"', GSTDATE='"+strGSTDate+"' where CCODE = '"+strRCode1+"'");
+                    stmUpdate.executeUpdate("update LSG_TBLCOMPANY set CCODE='"+strComCode+"', CNAME ='"+strComName+"', CONTPER='"+strContNo+"',LOCALITY='"+strLocality+"', CITY='"+strCity+"', STATE='"+strStateTerr+"',PHNO='"+strPhno+"',MAIL='"+strMail+"',GSTNO='"+strGST+"', GSTDATE='"+strGSTDate+"' where CCODE = '"+strComCode1+"'");
                     dlg.showMessageDialog(f1,"Record Updated  ","Updating",1);
                 }
             }
@@ -545,8 +544,8 @@ class RetailerWin implements ActionListener{
 
                 if(rsComCode.next()){
 
-                    strRCode=rsComCode.getString("CCODE");
-                    strRName=rsComCode.getString("CNAME");
+                    strComCode=rsComCode.getString("CCODE");
+                    strComName=rsComCode.getString("CNAME");
                     strContNo=rsComCode.getString("CONTPER");
                     strLocality=rsComCode.getString("LOCALITY");
                     strCity=rsComCode.getString("CITY");
@@ -556,8 +555,8 @@ class RetailerWin implements ActionListener{
                     strGST=rsComCode.getString("GSTNO");
                     strGSTDate=rsComCode.getString("GSTDATE");
 
-                    txtRCode.setText(strRCode);
-                    txtRName.setText(strRName);
+                    txtComCode.setText(strComCode);
+                    txtComName.setText(strComName);
                     txtContNo.setText(strContNo);
                     txtLocality.setText(strLocality);
                     txtCity.setText(strCity);
@@ -582,9 +581,9 @@ class RetailerWin implements ActionListener{
         else if(ae.getSource()==btnFirst){
             try{
                 rsUser.first();
-                strRCode=rsUser.getString("CCode");
-                strRCode1=rsUser.getString("CCODE");
-                strRName=rsUser.getString("CNAME");
+                strComCode=rsUser.getString("CCode");
+                strComCode1=rsUser.getString("CCODE");
+                strComName=rsUser.getString("CNAME");
                 strContNo=rsUser.getString("CONTPER");
                 strLocality=rsUser.getString("LOCALITY");
                 strCity=rsUser.getString("CITY");
@@ -594,8 +593,8 @@ class RetailerWin implements ActionListener{
                 strGST=rsUser.getString("GSTNO");
                 strGSTDate=rsUser.getString("GSTDATE");
 
-                txtRCode.setText(strRCode);
-                txtRName.setText(strRName);
+                txtComCode.setText(strComCode);
+                txtComName.setText(strComName);
                 txtContNo.setText(strContNo);
                 txtLocality.setText(strLocality);
                 txtCity.setText(strCity);
@@ -616,9 +615,9 @@ class RetailerWin implements ActionListener{
         else if(ae.getSource()==btnLast){
             try{
                 rsUser.last();
-                strRCode=rsUser.getString("CCode");
-                strRCode1=rsUser.getString("CCODE");
-                strRName=rsUser.getString("CNAME");
+                strComCode=rsUser.getString("CCode");
+                strComCode1=rsUser.getString("CCODE");
+                strComName=rsUser.getString("CNAME");
                 strContNo=rsUser.getString("CONTPER");
                 strLocality=rsUser.getString("LOCALITY");
                 strCity=rsUser.getString("CITY");
@@ -628,8 +627,8 @@ class RetailerWin implements ActionListener{
                 strGST=rsUser.getString("GSTNO");
                 strGSTDate=rsUser.getString("GSTDATE");
 
-                txtRCode.setText(strRCode);
-                txtRName.setText(strRName);
+                txtComCode.setText(strComCode);
+                txtComName.setText(strComName);
                 txtContNo.setText(strContNo);
                 txtLocality.setText(strLocality);
                 txtCity.setText(strCity);
@@ -664,10 +663,9 @@ class RetailerWin implements ActionListener{
     }
 }
 //Main Method
-class log_RetailerApp{
+class log_CompanyApp{
     public static void main(String []args){
-        RetailerWin obj;
-        obj =new RetailerWin();
+        CompanyWin obj;
+        obj =new CompanyWin();
     }
 }
-
