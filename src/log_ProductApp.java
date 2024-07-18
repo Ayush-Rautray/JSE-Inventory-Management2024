@@ -6,7 +6,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.*;
-
+//MASTER_FILE-->
 class ProductWin implements ActionListener{
     //FRAME PANEL LAYOUT_MANAGER
     JFrame f1;
@@ -53,7 +53,7 @@ class ProductWin implements ActionListener{
     Connection conn;
     Statement stmCompany,stmSelect,stmSave,stmUpdate,stmDelete,stmSearching,stmComboCName;
     ResultSet rsCompany,rsUser,rsComCode,rsCombo;
-    String compName,strDcombo,strCName,strCCode,strPCode,strPName,strPSIZE,strMUNIT,strPPRICE,strMRP,strGSTSLAP,strOPSTK,strMARSTK,strCCode1,strSearching;
+    String compName,strDcombo,strCName,strCCode,strPCode,strPCode1,strPName,strPSIZE,strMUNIT,strPPRICE,strMRP,strGSTSLAP,strOPSTK,strMARSTK,strCCode1,strSearching,str;
 
 
 
@@ -306,6 +306,8 @@ class ProductWin implements ActionListener{
         try {
             stmCompany = conn.createStatement();
             rsCompany = stmCompany.executeQuery("select * from LOG_TBLCOMPANY order by CCODE ");   //order by CCODE
+            str="--select--";
+            comboCName.addItem(str);
             while(rsCompany.next()){
 
                 compName = rsCompany.getString("CNAME");
@@ -339,11 +341,17 @@ class ProductWin implements ActionListener{
         //SAVE
         else if(ae.getSource() == btnSave){
             strCName=comboCName.getSelectedItem().toString();
+            strCName=strCName.trim();
             strCCode=txtCCode.getText();
+            strCCode=strCCode.trim();
             strPCode=txtPCode.getText();
+            strPCode=strPCode.trim();
             strPName=txtPName.getText();
+            strPName=strPName.trim();
             strPSIZE=comboPSize.getSelectedItem().toString();
+            strPSIZE=strPSIZE.trim();
             strMUNIT=txtMUnit.getText();
+            strMUNIT=strMUNIT.trim();
             strPPRICE=txtPPrice.getText();
             strMRP=txtMRP.getText();
             strGSTSLAP=comboGSTSlob.getSelectedItem().toString();
@@ -368,19 +376,27 @@ class ProductWin implements ActionListener{
                     dlg.showMessageDialog(f1, "Last Record ", "Message", 1);
                 } else {
                     rsUser.next();
-                    //strComCode=rsUser.getString("CCODE");
                     strCName = rsUser.getString("CCNAME");
+                    strCName=strCName.trim();
                     strCCode = rsUser.getString("CCODE");
+                    strCCode=strCCode.trim();
+                    strCCode1= rsUser.getString("CCODE");
+                    strCCode1=strCCode1.trim();
+                    strPCode1 = rsUser.getString("PCODE");
+                    strPCode1=strPCode1.trim();
                     strPCode = rsUser.getString("PCODE");
+                    strPCode=strPCode.trim();
                     strPName = rsUser.getString("PNAME");
+                    strPName=strPName.trim();
                     strPSIZE = rsUser.getString("PSIZE");
+                    strPSIZE=strPSIZE.trim();
                     strMUNIT = rsUser.getString("MUNIT");
+                    strMUNIT=strMUNIT.trim();
                     strPPRICE = rsUser.getString("PPRICE");
                     strMRP = rsUser.getString("MRP");
                     strGSTSLAP = rsUser.getString("GSTSLAP");
                     strOPSTK = rsUser.getString("OPSTK");
                     strMARSTK = rsUser.getString("MARSTK");
-                    strCCode1= rsUser.getString("CCODE");
 
                     comboCName.setSelectedItem(strCName);
                     txtCCode.setText(strCCode);
@@ -413,11 +429,21 @@ class ProductWin implements ActionListener{
                 else{
                     rsUser.previous();
                     strCName = rsUser.getString("CCNAME");
+                    strCName=strCName.trim();
                     strCCode = rsUser.getString("CCODE");
+                    strCCode=strCCode.trim();
+                    strCCode1= rsUser.getString("CCODE");
+                    strCCode1=strCCode1.trim();
+                    strPCode1 = rsUser.getString("PCODE");
+                    strPCode1=strPCode1.trim();
                     strPCode = rsUser.getString("PCODE");
+                    strPCode=strPCode.trim();
                     strPName = rsUser.getString("PNAME");
+                    strPName=strPName.trim();
                     strPSIZE = rsUser.getString("PSIZE");
+                    strPSIZE=strPSIZE.trim();
                     strMUNIT = rsUser.getString("MUNIT");
+                    strMUNIT=strMUNIT.trim();
                     strPPRICE = rsUser.getString("PPRICE");
                     strMRP = rsUser.getString("MRP");
                     strGSTSLAP = rsUser.getString("GSTSLAP");
@@ -448,11 +474,21 @@ class ProductWin implements ActionListener{
             try{
                 rsUser.first();
                 strCName = rsUser.getString("CCNAME");
+                strCName=strCName.trim();
                 strCCode = rsUser.getString("CCODE");
+                strCCode=strCCode.trim();
+                strCCode1= rsUser.getString("CCODE");
+                strCCode1=strCCode1.trim();
+                strPCode1 = rsUser.getString("PCODE");
+                strPCode1=strPCode1.trim();
                 strPCode = rsUser.getString("PCODE");
+                strPCode=strPCode.trim();
                 strPName = rsUser.getString("PNAME");
+                strPName=strPName.trim();
                 strPSIZE = rsUser.getString("PSIZE");
+                strPSIZE=strPSIZE.trim();
                 strMUNIT = rsUser.getString("MUNIT");
+                strMUNIT=strMUNIT.trim();
                 strPPRICE = rsUser.getString("PPRICE");
                 strMRP = rsUser.getString("MRP");
                 strGSTSLAP = rsUser.getString("GSTSLAP");
@@ -482,11 +518,21 @@ class ProductWin implements ActionListener{
             try{
                 rsUser.last();
                 strCName = rsUser.getString("CCNAME");
+                strCName=strCName.trim();
                 strCCode = rsUser.getString("CCODE");
+                strCCode=strCCode.trim();
+                strCCode1= rsUser.getString("CCODE");
+                strCCode1=strCCode1.trim();
+                strPCode1 = rsUser.getString("PCODE");
+                strPCode1=strPCode1.trim();
                 strPCode = rsUser.getString("PCODE");
+                strPCode=strPCode.trim();
                 strPName = rsUser.getString("PNAME");
+                strPName=strPName.trim();
                 strPSIZE = rsUser.getString("PSIZE");
+                strPSIZE=strPSIZE.trim();
                 strMUNIT = rsUser.getString("MUNIT");
+                strMUNIT=strMUNIT.trim();
                 strPPRICE = rsUser.getString("PPRICE");
                 strMRP = rsUser.getString("MRP");
                 strGSTSLAP = rsUser.getString("GSTSLAP");
@@ -546,7 +592,7 @@ class ProductWin implements ActionListener{
                 stmUpdate = conn.createStatement();
                 option=dlgCd.showConfirmDialog(f1,"Sure to Update","Alert",2);
                 if(option==0){
-                    stmUpdate.executeUpdate("update LOG_TBLPRODUCT set CCNAME='"+strCName+"',CCODE='"+strCCode+"',PCODE='"+strPCode+"',PNAME='"+strPName+"',PSIZE='"+strPSIZE+"',MUnit='"+strMUNIT+"',PPRICE='"+strPPRICE+"',MRP='"+strMRP+"',GSTSLAP='"+strGSTSLAP+"',OPSTK='"+strOPSTK+"',MARSTK='"+strMARSTK+"'");
+                    stmUpdate.executeUpdate("update LOG_TBLPRODUCT set CCNAME='"+strCName+"',CCODE='"+strCCode+"',PCODE='"+strPCode+"',PNAME='"+strPName+"',PSIZE='"+strPSIZE+"',MUnit='"+strMUNIT+"',PPRICE='"+strPPRICE+"',MRP='"+strMRP+"',GSTSLAP='"+strGSTSLAP+"',OPSTK='"+strOPSTK+"',MARSTK='"+strMARSTK+"' where PCODE='"+strPCode1+"'");
                     dlg.showMessageDialog(f1,"Record Updated  ","Updating",1);
 
                 }
@@ -561,10 +607,10 @@ class ProductWin implements ActionListener{
 
         //SELECT-->
         else if(ae.getSource()==btnSelect){
-            strSearching= dlg.showInputDialog(f1,"Enter Company Code Number","Searching ",3);
+            strSearching= dlg.showInputDialog(f1,"Enter Product Code Number","Searching ",3);
             try{
                 stmSearching=conn.createStatement();
-                rsComCode=stmSearching.executeQuery("select * from LOG_TBLPRODUCT where CCODE='"+strSearching+"'");
+                rsComCode=stmSearching.executeQuery("select * from LOG_TBLPRODUCT where PCODE='"+strSearching+"'");
 
                 if(rsComCode.next()){
                     strCName = rsComCode.getString("CCNAME");

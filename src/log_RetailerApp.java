@@ -6,7 +6,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.*;
-
+//MASTER_FILE-->
 class RetailerWin implements ActionListener{
 
     //FRAME PANEL LAYOUT_MANAGER
@@ -88,7 +88,7 @@ class RetailerWin implements ActionListener{
     //DataBase Requirements
     Connection conn;
     Statement stmSave,stmSelect, stmSearching, stmDelete,stmUpdate;//,stmFirst,stmLast;
-    ResultSet rsUser,rsComCode;
+    ResultSet rsUser,rsRCode;
     String strRCode,strRCode1,strRName,strContNo,strLocality,strCity,strStateTerr,
             strPhno,strMail,strGST,strGSTDate,strSearching,str2;
 
@@ -329,7 +329,7 @@ class RetailerWin implements ActionListener{
         try{//step3
             conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","tiger");
             stmSelect=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            rsUser=stmSelect.executeQuery("select * from LSG_TBLCOMPANY order by CCODE");
+            rsUser=stmSelect.executeQuery("select * from LOG_TBLRETAILER order by RCODE");
         }
         catch(SQLException se){
             System.out.println("Unable to connect"+se);
@@ -406,7 +406,7 @@ class RetailerWin implements ActionListener{
 
             try{
                 stmSave=conn.createStatement();
-                stmSave.executeUpdate("insert into  LSG_TBLCOMPANY values('"+strRCode+"','"+strRName+"','"+strContNo+"','"+strLocality+"','"+strCity+"','"+strStateTerr+"','"+strPhno+"','"+strMail+"','"+strGST+"','"+strGSTDate+"')");
+                stmSave.executeUpdate("insert into  LOG_TBLRETAILER values('"+strRCode+"','"+strRName+"','"+strContNo+"','"+strLocality+"','"+strCity+"','"+strStateTerr+"','"+strPhno+"','"+strMail+"','"+strGST+"','"+strGSTDate+"')");
                 //System.out.println("save");
                 dlg.showMessageDialog(f1,"One Record Savaed","Message",1);
             }
@@ -425,9 +425,9 @@ class RetailerWin implements ActionListener{
                 }
                 else{
                     rsUser.next();
-                    strRCode=rsUser.getString("CCODE");
-                    strRCode1=rsUser.getString("CCODE");
-                    strRName=rsUser.getString("CNAME");
+                    strRCode=rsUser.getString("RCODE");
+                    strRCode1=rsUser.getString("RCODE");
+                    strRName=rsUser.getString("RNAME");
                     strContNo=rsUser.getString("CONTPER");
                     strLocality=rsUser.getString("LOCALITY");
                     strCity=rsUser.getString("CITY");
@@ -465,9 +465,9 @@ class RetailerWin implements ActionListener{
                 }
                 else{
                     rsUser.previous();
-                    strRCode=rsUser.getString("CCODE");
-                    strRCode1=rsUser.getString("CCODE");
-                    strRName=rsUser.getString("CNAME");
+                    strRCode=rsUser.getString("RCODE");
+                    strRCode1=rsUser.getString("RCODE");
+                    strRName=rsUser.getString("RNAME");
                     strContNo=rsUser.getString("CONTPER");
                     strLocality=rsUser.getString("LOCALITY");
                     strCity=rsUser.getString("CITY");
@@ -502,7 +502,7 @@ class RetailerWin implements ActionListener{
                 option=dlgCd.showConfirmDialog(f1,"Sure to Delete","Alert",2);
                 if(option==0){
                     stmDelete=conn.createStatement();
-                    stmDelete.executeUpdate("delete from LSG_TBLCOMPANY where CCODE='"+strRCode1+"'");
+                    stmDelete.executeUpdate("delete from LOG_TBLRETAILER where RCODE='"+strRCode1+"'");
                     dlg.showMessageDialog(f1,"Record Deleted  ","Message",1);
                 }
             }
@@ -527,7 +527,7 @@ class RetailerWin implements ActionListener{
                 stmUpdate = conn.createStatement();
                 option=dlgCd.showConfirmDialog(f1,"Sure to Update","Alert",2);
                 if(option==0){
-                    stmUpdate.executeUpdate("update LSG_TBLCOMPANY set CCODE='"+strRCode+"', CNAME ='"+strRName+"', CONTPER='"+strContNo+"',LOCALITY='"+strLocality+"', CITY='"+strCity+"', STATE='"+strStateTerr+"',PHNO='"+strPhno+"',MAIL='"+strMail+"',GSTNO='"+strGST+"', GSTDATE='"+strGSTDate+"' where CCODE = '"+strRCode1+"'");
+                    stmUpdate.executeUpdate("update LOG_TBLRETAILER set RCODE='"+strRCode+"', RNAME ='"+strRName+"', CONTPER='"+strContNo+"',LOCALITY='"+strLocality+"', CITY='"+strCity+"', STATE='"+strStateTerr+"',PHNO='"+strPhno+"',MAIL='"+strMail+"',GSTNO='"+strGST+"', GSTDATE='"+strGSTDate+"' where RCODE = '"+strRCode1+"'");
                     dlg.showMessageDialog(f1,"Record Updated  ","Updating",1);
                 }
             }
@@ -541,20 +541,20 @@ class RetailerWin implements ActionListener{
             strSearching= dlg.showInputDialog(f1,"Enter Company Code Number","Searching ",3);
             try{
                 stmSearching=conn.createStatement();
-                rsComCode=stmSearching.executeQuery("select * from LSG_TBLCOMPANY where CCODE='"+strSearching+"'");
+                rsRCode=stmSearching.executeQuery("select * from LOG_TBLRETAILER where RCODE='"+strSearching+"'");
 
-                if(rsComCode.next()){
+                if(rsRCode.next()){
 
-                    strRCode=rsComCode.getString("CCODE");
-                    strRName=rsComCode.getString("CNAME");
-                    strContNo=rsComCode.getString("CONTPER");
-                    strLocality=rsComCode.getString("LOCALITY");
-                    strCity=rsComCode.getString("CITY");
-                    strStateTerr=rsComCode.getString("STATE");
-                    strPhno=rsComCode.getString("PHNO");
-                    strMail=rsComCode.getString("MAIL");
-                    strGST=rsComCode.getString("GSTNO");
-                    strGSTDate=rsComCode.getString("GSTDATE");
+                    strRCode=rsRCode.getString("RCODE");
+                    strRName=rsRCode.getString("RNAME");
+                    strContNo=rsRCode.getString("CONTPER");
+                    strLocality=rsRCode.getString("LOCALITY");
+                    strCity=rsRCode.getString("CITY");
+                    strStateTerr=rsRCode.getString("STATE");
+                    strPhno=rsRCode.getString("PHNO");
+                    strMail=rsRCode.getString("MAIL");
+                    strGST=rsRCode.getString("GSTNO");
+                    strGSTDate=rsRCode.getString("GSTDATE");
 
                     txtRCode.setText(strRCode);
                     txtRName.setText(strRName);
@@ -582,9 +582,9 @@ class RetailerWin implements ActionListener{
         else if(ae.getSource()==btnFirst){
             try{
                 rsUser.first();
-                strRCode=rsUser.getString("CCode");
-                strRCode1=rsUser.getString("CCODE");
-                strRName=rsUser.getString("CNAME");
+                strRCode=rsUser.getString("RCODE");
+                strRCode1=rsUser.getString("RCODE");
+                strRName=rsUser.getString("RNAME");
                 strContNo=rsUser.getString("CONTPER");
                 strLocality=rsUser.getString("LOCALITY");
                 strCity=rsUser.getString("CITY");
@@ -616,9 +616,9 @@ class RetailerWin implements ActionListener{
         else if(ae.getSource()==btnLast){
             try{
                 rsUser.last();
-                strRCode=rsUser.getString("CCode");
-                strRCode1=rsUser.getString("CCODE");
-                strRName=rsUser.getString("CNAME");
+                strRCode=rsUser.getString("RCODE");
+                strRCode1=rsUser.getString("RCODE");
+                strRName=rsUser.getString("RNAME");
                 strContNo=rsUser.getString("CONTPER");
                 strLocality=rsUser.getString("LOCALITY");
                 strCity=rsUser.getString("CITY");

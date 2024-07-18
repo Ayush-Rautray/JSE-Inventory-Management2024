@@ -1,11 +1,11 @@
-
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.*;
 import java.sql.*;
-
+import java.util.*;
+//MASTER_FILE-->
 class CompanyWin implements ActionListener{
 
     //FRAME PANEL LAYOUT_MANAGER
@@ -97,7 +97,7 @@ class CompanyWin implements ActionListener{
     //CONSTRUCTOR BEGIN
     public CompanyWin(){
         //frame Panel LayoutManager Box
-        f1=new JFrame("Company Details ");
+        f1=new JFrame("Logistic Solution  ");
         f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         p1=new JPanel();
         p2=new JPanel();
@@ -112,7 +112,7 @@ class CompanyWin implements ActionListener{
 
         //Font and Colors and Border
         fnt1=new Font("Castellar",Font.BOLD,30);//Times New Roman//Castellar
-        fnt2=new Font("Bahnschrift SemiLight",Font.BOLD,18);//copperplategothic// Bahnschrift SemiLight//Bookman Old Style
+        fnt2=new Font("Bahnschrift SemiLight",Font.BOLD,15);//copperplategothic// Bahnschrift SemiLight//Bookman Old Style
         clrAll=new Color (157, 174, 204);//panel
         clrfont=new Color(87, 111, 153);// Blue//122, 5, 20 //11, 89, 46
         clrWhite=new Color(255,255,255);//white  //255,255,255
@@ -328,7 +328,7 @@ class CompanyWin implements ActionListener{
         try{//step3
             conn=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","tiger");
             stmSelect=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            rsUser=stmSelect.executeQuery("select * from LSG_TBLCOMPANY order by CCODE");
+            rsUser=stmSelect.executeQuery("select * from LOG_TBLCOMPANY order by CCODE");
         }
         catch(SQLException se){
             System.out.println("Unable to connect"+se);
@@ -405,7 +405,7 @@ class CompanyWin implements ActionListener{
 
             try{
                 stmSave=conn.createStatement();
-                stmSave.executeUpdate("insert into  LSG_TBLCOMPANY values('"+strComCode+"','"+strComName+"','"+strContNo+"','"+strLocality+"','"+strCity+"','"+strStateTerr+"','"+strPhno+"','"+strMail+"','"+strGST+"','"+strGSTDate+"')");
+                stmSave.executeUpdate("insert into  LOG_TBLCOMPANY values('"+strComCode+"','"+strComName+"','"+strContNo+"','"+strLocality+"','"+strCity+"','"+strStateTerr+"','"+strPhno+"','"+strMail+"','"+strGST+"','"+strGSTDate+"')");
                 //System.out.println("save");
                 dlg.showMessageDialog(f1,"One Record Savaed","Message",1);
             }
@@ -501,7 +501,7 @@ class CompanyWin implements ActionListener{
                 option=dlgCd.showConfirmDialog(f1,"Sure to Delete","Alert",2);
                 if(option==0){
                     stmDelete=conn.createStatement();
-                    stmDelete.executeUpdate("delete from LSG_TBLCOMPANY where CCODE='"+strComCode1+"'");
+                    stmDelete.executeUpdate("delete from LOG_TBLCOMPANY where CCODE='"+strComCode1+"'");
                     dlg.showMessageDialog(f1,"Record Deleted  ","Message",1);
                 }
             }
@@ -526,7 +526,7 @@ class CompanyWin implements ActionListener{
                 stmUpdate = conn.createStatement();
                 option=dlgCd.showConfirmDialog(f1,"Sure to Update","Alert",2);
                 if(option==0){
-                    stmUpdate.executeUpdate("update LSG_TBLCOMPANY set CCODE='"+strComCode+"', CNAME ='"+strComName+"', CONTPER='"+strContNo+"',LOCALITY='"+strLocality+"', CITY='"+strCity+"', STATE='"+strStateTerr+"',PHNO='"+strPhno+"',MAIL='"+strMail+"',GSTNO='"+strGST+"', GSTDATE='"+strGSTDate+"' where CCODE = '"+strComCode1+"'");
+                    stmUpdate.executeUpdate("update LOG_TBLCOMPANY set CCODE='"+strComCode+"', CNAME ='"+strComName+"', CONTPER='"+strContNo+"',LOCALITY='"+strLocality+"', CITY='"+strCity+"', STATE='"+strStateTerr+"',PHNO='"+strPhno+"',MAIL='"+strMail+"',GSTNO='"+strGST+"', GSTDATE='"+strGSTDate+"' where CCODE = '"+strComCode1+"'");
                     dlg.showMessageDialog(f1,"Record Updated  ","Updating",1);
                 }
             }
@@ -540,7 +540,7 @@ class CompanyWin implements ActionListener{
             strSearching= dlg.showInputDialog(f1,"Enter Company Code Number","Searching ",3);
             try{
                 stmSearching=conn.createStatement();
-                rsComCode=stmSearching.executeQuery("select * from LSG_TBLCOMPANY where CCODE='"+strSearching+"'");
+                rsComCode=stmSearching.executeQuery("select * from LOG_TBLCOMPANY where CCODE='"+strSearching+"'");
 
                 if(rsComCode.next()){
 
