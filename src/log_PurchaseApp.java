@@ -30,7 +30,7 @@ class PurchaseWin implements ActionListener{
     JButton btnClear,btnSave,btnNext,btnPrevious,btnDelete,btnUpdate,btnClose,btnSelect,btnFirst,btnLast;
     //Dialogs
     JOptionPane dlg,dlgIn,dlgCd;
-    int option=1, i;
+    int option=1, i=1;
     float quant,amt,price,percent,taxable,total;
 
     Connection conn;
@@ -417,6 +417,7 @@ class PurchaseWin implements ActionListener{
             txtGStper.setText("");
             txtGSTAmt.setText("");
             txtNetAmt.setText("");
+            i=1;//for not saving same record again and again
         }
         //SAVE-->
         if (ae.getSource()==btnSave){
@@ -463,15 +464,22 @@ class PurchaseWin implements ActionListener{
             strNetAmt=txtNetAmt.getText();
             strNetAmt=strNetAmt.trim();
 
+
             try{
-                stmSave= conn.createStatement();
-                stmSave.executeUpdate("insert into LOG_TBLPURCHASE  values ('"+strPurchaseNo+"','"+strPDate+"','"+strORDNO+"','"+strODate+"','"+strCName+"','"+strLocality+"','"+strCity+"','"+strState+"','"+strPType+"','"+strSLNO+"','"+strPCode+"','"+strPName+"','"+strSize+"','"+strPrice+"','"+strPQuant+"','"+strAmt+"','"+strDisPer+"','"+strDisAmt+"','"+strGSTPer+"','"+strGSTAmt+"','"+strNetAmt+"')");
-                //UPDATTING STOCK IN PRODUCT TABLE-->
-                intPQant=Integer.parseInt(strPQuant);
-                System.out.println(intPQant);
-                stmStockUP=conn.createStatement();
-                stmStockUP.executeUpdate("update LOG_TBLPRODUCT set OPSTK=OPSTK+'"+intPQant+"' where PCODE='"+strPCode+"'");
-                dlg.showMessageDialog(f1,"One Record Saved","Message",1);
+                if(i==1){
+                    stmSave= conn.createStatement();
+                    stmSave.executeUpdate("insert into LOG_TBLPURCHASE  values ('"+strPurchaseNo+"','"+strPDate+"','"+strORDNO+"','"+strODate+"','"+strCName+"','"+strLocality+"','"+strCity+"','"+strState+"','"+strPType+"','"+strSLNO+"','"+strPCode+"','"+strPName+"','"+strSize+"','"+strPrice+"','"+strPQuant+"','"+strAmt+"','"+strDisPer+"','"+strDisAmt+"','"+strGSTPer+"','"+strGSTAmt+"','"+strNetAmt+"')");
+                    //UPDATTING STOCK IN PRODUCT TABLE-->
+                    intPQant=Integer.parseInt(strPQuant);
+                    stmStockUP=conn.createStatement();
+                    stmStockUP.executeUpdate("update LOG_TBLPRODUCT set OPSTK=OPSTK+'"+intPQant+"' where PCODE='"+strPCode+"'");
+                    dlg.showMessageDialog(f1,"One Record Saved","Message",1);
+                    i++;//For not saving same record again and again
+                }
+                else{
+                    dlg.showMessageDialog(f1,"This Record already Saved","Message",1);
+                    return;
+                }
             }
             catch(SQLException se){
                 dlg.showMessageDialog(f1,"Not Saved "+se,"Message",2);
@@ -885,6 +893,7 @@ class PurchaseWin implements ActionListener{
             strNetAmt=strNetAmt.trim();
 
             try {
+                strPur1=strPur1.trim();
                 stmUpdate = conn.createStatement();
                 option=dlgCd.showConfirmDialog(f1,"Sure to Update","Alert",2);
                 if(option==0){
@@ -1004,5 +1013,4 @@ class log_PurchaseApp{
         obj= new  PurchaseWin();
     }
 }
-
 
